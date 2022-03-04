@@ -10,7 +10,14 @@ app.get("/ping", (req: Request, res: Response) => {
 });
 
 app.get("/products", async (req: Request, res: Response) => {
-  const products = await prisma.product.findMany();
+  const products = await prisma.product.findMany({
+      where: {
+          price: {
+              gt: 12000,
+              lt: 20000
+          }
+      }
+  });
 
   res.json(products);
 });
