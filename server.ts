@@ -10,17 +10,22 @@ app.get("/ping", (req: Request, res: Response) => {
 });
 
 app.get("/products", async (req: Request, res: Response) => {
-  const products = await prisma.product.findMany({
-      where: {
-          price: {
-              gt: 12000,
-              lt: 20000
-          }
-      }
-  });
+  const products = await prisma.product.findMany();
 
   res.json(products);
 });
+
+app.post("/products", async (req: Request, res: Response) => {
+    const product = await prisma.product.create({
+        data: {
+            name: 'Cargo Shorts',
+            description: 'Lots of pockets',
+            price: 70000
+        }
+    });
+  
+    res.json(product);
+  });
 
 const PORT = 3001;
 app.listen(PORT);
