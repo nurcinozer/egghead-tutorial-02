@@ -34,6 +34,24 @@ app.post("/products", async (req: Request, res: Response) => {
   res.json(product);
 });
 
+app.post("/reviews", async (req: Request, res: Response) => {
+  const { body } = req;
+
+  const review = await prisma.review.create({
+    data: {
+      text: body.text,
+      rating: body.rating,
+      product: {
+        connect: {
+          id: body.productId,
+        },
+      },
+    },
+  });
+
+  res.json(review);
+});
+
 const PORT = 3001;
 app.listen(PORT);
 console.log(`listening on http://localhost:${PORT}`);
