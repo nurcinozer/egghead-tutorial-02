@@ -12,8 +12,15 @@ app.get("/ping", (req: Request, res: Response) => {
 
 app.get("/products", async (req: Request, res: Response) => {
   const products = await prisma.product.findMany({
-    include: {
-      reviews: true,
+    select: {
+      name: true,
+      description: true,
+      reviews: {
+        select: {
+          text: true,
+          rating: true,
+        },
+      },
     },
   });
 
